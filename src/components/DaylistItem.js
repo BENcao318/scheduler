@@ -6,17 +6,25 @@ import classNames from "classnames";
 
 export default function DayListItem(props) {
   let listClass = classNames("day-list__item", {
-    "--selected": props.selected,
+    "day-list__item--selected": props.selected,
+    "day-list__item--full": props.spots === 0
   })
 
-  if(props.spots === 0) {
-    listClass = "day-list__item--full"
+  const formatSpots = (spots) => {
+    if(spots === 0) {
+      return "no spots";
+    } else  if (spots === 1) {
+      return "1 spot";
+    } else {
+      return `${spots} spots`; 
+    }
   }
+
 
   return (
     <li className={listClass} onClick={() => props.setDay(props.name)}>
       <h2 className="text--regular">{props.name}</h2> 
-      <h3 className="text--light">{props.spots} spots remaining</h3>
+      <h3 className="text--light">{formatSpots(props.spots)} remaining</h3>
     </li>
   );
 }
