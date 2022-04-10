@@ -1,6 +1,6 @@
 import React from "react";
 
-import "components/DayListItem.scss"
+import "components/DayListItem.scss";
 
 import classNames from "classnames";
 
@@ -22,7 +22,7 @@ export default function DayListItem(props) {
 
 
   return (
-    <li className={listClass} onClick={() => props.setDay(props.name)}>
+    <li className={listClass} onClick={props.setDay} selected={props.selected}>
       <h2 className="text--regular">{props.name}</h2> 
       <h3 className="text--light">{formatSpots(props.spots)} remaining</h3>
     </li>
