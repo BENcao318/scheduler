@@ -15,8 +15,10 @@ export default function useVisualMode(initial) {
   };
   
   const back = () => {
-    history.pop();
-    setMode(history[history.length - 1]);
+
+    const newHis = history.filter((_, index) => index !== history.length - 1);  //Use filter instead of Array.pop() or Array.splice() to avoid mutating the state directly.
+    setHistory(newHis);
+    setMode(newHis[newHis.length - 1]);
   };
 
   return {
