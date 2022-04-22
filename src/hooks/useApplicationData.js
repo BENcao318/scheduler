@@ -24,6 +24,7 @@ export default function useApplicationData() {
     return axios.put(`/api/appointments/${id}`, {interview})
       .then(() => {
         setState({...state, appointments});
+        updateSpots(state.days, appointments);
       })
   }
 
@@ -41,7 +42,23 @@ export default function useApplicationData() {
     return axios.delete(`/api/appointments/${id}`)
             .then((response) => {
               setState({...state, appointments});
+              updateSpots(state.days, appointments);
             })
+  }
+
+  function updateSpots(stateDays, appointments) {
+    let days = [...stateDays];            //copy the state.days to a new array. Otherwise the forEach loop will directly change the state data
+    days.forEach((day) => {
+      let spots = 0;
+      day.appointments.forEach((appointmentId) => {
+        if(!appointments[appointmentId].interview) {
+          spots++;
+        }
+      })
+      day.spots = spots;
+    })
+
+    setState({...state, days});
   }
 
   useEffect(() => {
@@ -58,6 +75,6 @@ export default function useApplicationData() {
     state,
     setDay,
     bookInterview,
-    deleteInterview
+    deleteInterview,
   }
 }
