@@ -6,7 +6,7 @@ export default function useVisualMode(initial) {
 
   const transition = (mode, replace = false) => {
     if(replace) {
-      setHistory(prev => [...prev.slice(0, prev.length - 1), mode]);   //Make sure to use prev for ensure that the prev state is called on time. For asyncchronous callback, this is important to not let the state grow stale. 
+      setHistory(prev => [...prev.slice(0, prev.length - 1), mode]);   //Make sure to use prev for ensuring that the prev state is called on time. For asyncchronous callback, this is important to not let the state grow stale. 
     } else {
       setHistory(prev => [...prev, mode]);    //Make sure to use prev for ensure that the prev state is called on time. For asyncchronous callback, this is important to not let the state grow stale. 
     }
