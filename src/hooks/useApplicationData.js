@@ -6,6 +6,8 @@ const SET_APPLICATION_DATA = "SET_APPLICATION_DATA"
 const SET_INTERVIEW = "SET_INTERVIEW";
 const UPDATE_SPOTS = "UPDATE_SPOTS";
 
+
+
 function reducer(state, action) {
   switch (action.type) {
     case SET_DAY:
@@ -40,6 +42,8 @@ function reducer(state, action) {
 }
 
 export default function useApplicationData() {
+  let id = null;
+  let interview = null;
 
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
@@ -120,6 +124,22 @@ export default function useApplicationData() {
   }, []);
 
   useEffect(() => {
+    // console.log(id, interview)
+    if (id && interview) {
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+
+      dispatch({ type: SET_INTERVIEW, appointments })
+    }
+  }, [id, interview, state.appointments])
+
+  useEffect(() => {
     const socket = new WebSocket('ws://localhost:8001');
 
     // socket.onopen = function(event) {
@@ -128,27 +148,21 @@ export default function useApplicationData() {
 
     socket.onmessage = function (event) {
 
-      const id = JSON.parse(event.data).id;
-      const interview = JSON.parse(event.data).interview;
+      if (JSON.parse(event.data).type === SET_INTERVIEW) {
+        // id = JSON.parse(event.data).id;
+        // interview = JSON.parse(event.data).interview;
+      }
+
       // console.log(interview);
+      // console.log(state.appointments)
 
 
       // if(JSON.parse(event.data).type === SET_INTERVIEW){
 
-      //   const appointment = {
-      //     ...state.appointments[id],
-      //     interview: { ...interview }
-      //   };
-      //   const appointments = {
-      //     ...state.appointments,
-      //     [id]: appointment
-      //   };
-      //   console.log('appointments >>>>>>', appointments)
-      //   dispatch({type: SET_INTERVIEW, appointments})
       // };
     }
 
-  })
+  }, [])
 
   return {
     state,

@@ -4,7 +4,7 @@ import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
 import useVisualMode from "../../hooks/useVisualMode";
-import Form from "components/Form";
+import Form from "components/Appointment/Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
 import Error from "./Error";
@@ -51,7 +51,7 @@ export default function Appointment(props) {
   }
 
   useEffect(() => {
-    console.log('useEffect')
+
     if(mode === EMPTY && props.interview) {
       transition(SHOW);
     } 
