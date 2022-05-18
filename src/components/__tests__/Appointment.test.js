@@ -22,8 +22,4 @@ describe("Appointment", () => {
     render(<Application />);
   });
 
-  it("renders without crashing", () => {
-    
-  });
-
 })
