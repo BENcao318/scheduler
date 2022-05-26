@@ -51,15 +51,13 @@ export default function Appointment(props) {
   }
 
   useEffect(() => {
-
-    if(mode === EMPTY && props.interview) {
-      transition(SHOW);
-    } 
-    
-    if (mode === SHOW && props.interview === null) {
-      transition(EMPTY);
+    if (props.interview && mode === EMPTY) {
+     transition(SHOW);
     }
-  }, [props.interview, transition, mode])
+    if (props.interview === null && mode === SHOW) {
+     transition(EMPTY);
+    }
+   }, [props.interview, transition, mode]);
 
   return (
     <article className="appointment" data-testid="appointment">

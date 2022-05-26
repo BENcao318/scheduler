@@ -124,7 +124,6 @@ export default function useApplicationData() {
   }, []);
 
   useEffect(() => {
-    // console.log(id, interview)
     if (id && interview) {
       const appointment = {
         ...state.appointments[id],
@@ -142,27 +141,46 @@ export default function useApplicationData() {
   useEffect(() => {
     const socket = new WebSocket('ws://localhost:8001');
 
-    // socket.onopen = function(event) {
-    //   socket.send('ping');
-    // }
+    socket.onopen = function (event) {
+      socket.send('ping');
+    }
 
     socket.onmessage = function (event) {
 
       if (JSON.parse(event.data).type === SET_INTERVIEW) {
-        // id = JSON.parse(event.data).id;
-        // interview = JSON.parse(event.data).interview;
+        let id = JSON.parse(event.data).id;
+        let interview = JSON.parse(event.data).interview;
+
+        if(interview) {
+          const appointment = {
+            ...state.appointments[id],
+            interview: { ...interview }
+          };
+          const appointments = {
+            ...state.appointments,
+            [id]: appointment
+          };
+          dispatch({ type: SET_INTERVIEW, appointments })
+        } else {
+          const appointment = {
+            ...state.appointments[id],
+            interview: null
+          };
+      
+          const appointments = {
+            ...state.appointments,
+            [id]: appointment
+          }
+          dispatch({ type: SET_INTERVIEW, appointments })
+        }
       }
 
-      // console.log(interview);
-      // console.log(state.appointments)
-
-
-      // if(JSON.parse(event.data).type === SET_INTERVIEW){
-
-      // };
+    }
+    return () => {
+      socket.close();
     }
 
-  }, [])
+  },[state.appointments])
 
   return {
     state,
