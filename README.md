@@ -1,5 +1,15 @@
 # Interview Scheduler
 
+The app provides users an interface to view and book an interview. It uses websocket technology to render the page in different clients at the same time.
+
+## Dependencies
+  - "axios": "^0.27.2" and above,
+  - "classnames": "^2.3.1" and above,
+  - "cypress": "^9.7.0" and above,
+  - "mocha": "^10.0.0" and above,
+  - "normalize.css": "^8.0.1" and above,
+  - "react": "^18.1.0" and above,
+
 ## Setup
 
 Install dependencies with `npm install`.
